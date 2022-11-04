@@ -2,13 +2,18 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  --primary-color: #01161e;
+  --secondary-color: #124559;
+  --tertiary-color: #598392;
+  --color-font1: white;
+  --color-font2: black;
 }
 
 body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: rgb(180, 231, 255);
+  background-color: #aec3b0;
 }
 
 .App {
@@ -18,9 +23,9 @@ body {
   width: 300px;
   padding: 20px;
   margin: 20px;
-  background-color: rgb(8, 104, 194);
+  background-color: var(--primary-color);
   border-radius: 10px;
-  box-shadow: 5px 5px;
+  box-shadow: 5px 5px var(--secondary-color);
 }
 
 .tela {
@@ -32,7 +37,7 @@ body {
   height: 40px;
   width: 100%;
   color: rgb(255, 255, 255);
-  background-color: rgb(2, 32, 95);
+  background-color: var(--secondary-color);
   font-size: 20px;
   text-align: end;
   padding: 5px;
@@ -42,8 +47,7 @@ body {
   padding: 5px;
   text-align: end;
   height: 50px;
-  background-color: rgb(2, 32, 95);
-  color: rgb(0, 31, 58);
+  background-color: var(--secondary-color);
   margin: 0;
   font-size: 30px;
   color: rgb(255, 255, 255);
@@ -54,17 +58,31 @@ body {
   width: 24%;
   font-size: 20px;
   margin-bottom: 4px;
+  border-radius: 5px;
+  padding: 10px;
   border: none;
 
 }
 
 .btn-primary {
-  background-color: rgb(18, 42, 114);
+  background-color: var(--tertiary-color);
+  color: var(--color-font1);
   font-size: 25px;
 }
 
+.btn-primary:hover {
+  background-color: var(--secondary-color);
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  cursor: pointer;
+  background-color: var(--tertiary-color);
+}
+
 .btn-secondary {
-  background-color: rgb(0, 20, 77);
+  color: var(--color-font1);
+  background-color: var(--secondary-color);
 }
 
 
