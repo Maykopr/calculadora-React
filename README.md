@@ -2,7 +2,7 @@
 
 ## LÓGICA
 
-Apesar de parecer com a calculadora inicial, esta difere enormemente. Possui os seguintes filtros:
+Calculadora básica feita em React. Possui os seguintes filtros:
 
 - Não estrapola o tamanho da tela.
 - Não permite repetir o operador indiscriminadamente.
@@ -11,4 +11,4 @@ Apesar de parecer com a calculadora inicial, esta difere enormemente. Possui os 
 - Não permite utilizar a vírgula indiscrinadamente.
 - Se a vírgula for o primeiro digito, acrescenta um '0' antes da mesma.
 
-![image](./src/screenshot.jpg)
+![image](./src/calculadora-react.jpg)
