@@ -1,9 +1,9 @@
 
 export default function Display(props) {
-    const Display = ({ value, result }) => {
+    const Display = ({ value, memory }) => {
         return (
             <div className="screen">
-                <p className="memory">{result}</p>
+                <p className="memory">{memory}</p>
                 <p id='display' className="display">{value}</p>
             </div>
         )

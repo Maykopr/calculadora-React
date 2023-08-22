@@ -42,7 +42,7 @@ export default function Buttons(props) {
         //if we type an operator the result is concatenated to the next operation
         if ((regexOperators.test(d)) && props.equal) {
             props.setEqual(false)
-            props.setResult(props.value)
+            props.setMemory(props.value)
             props.setValue(props.value + d)
             return
         };
@@ -66,7 +66,7 @@ export default function Buttons(props) {
 
         //if we type a number after the result, it is replaced by the new number
         if (props.equal) {
-            props.setResult(props.value)
+            props.setMemory(props.value)
             props.setValue(d)
             props.setEqual(false)
             return
@@ -85,7 +85,7 @@ export default function Buttons(props) {
     const clear = () => {
         props.setEqual(false)
         props.setValue('0')
-        props.setResult('')
+        props.setMemory('')
         return
     }
 
@@ -106,7 +106,7 @@ export default function Buttons(props) {
             props.setValue(resultUpdate);
             props.setEqual(true)
         } catch {
-            props.setResult('ERRO')
+            props.setMemory('ERRO')
         }
     }
     return (
