@@ -1,20 +1,19 @@
 import React, { useState } from 'react'
 import './App.css'
-import './backspace-fill.svg'
-import Tela from './components/Tela'
+import Display from './components/Display'
 import Buttons from './components/Buttons'
 
 export default function App() {
 
-  const [valorTela, setValorTela] = useState('');
-  const [resultado, setResultado] = useState(0);
-  const [eoperado, setEoperado] = useState(false);
+  const [valueScreen, setValueScreen] = useState('0');
+  const [result, setResult] = useState('');
+  const [equalIsPressed, setEqualIsPressed] = useState(false);
 
 
   return (
     <div className="App">
-      <Tela v={valorTela} r={resultado} />
-      <Buttons v={valorTela} setV={setValorTela} r={resultado} setR={setResultado} o={eoperado} setO={setEoperado} />
+      <Display value={valueScreen} result={result} />
+      <Buttons value={valueScreen} setValue={setValueScreen} result={result} setResult={setResult} equal={equalIsPressed} setEqual={setEqualIsPressed} />
     </div>
   );
 }

@@ -2,82 +2,102 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  --primary-color: #01161e;
-  --secondary-color: #124559;
-  --tertiary-color: #598392;
-  --color-font1: white;
-  --color-font2: black;
+}
+
+:root {
+  --primary-color: #1a3130;
+  --secondary-color: #cad2c5;
+  --tertiary-color: #018d92;
+  --color-font1: var(--primary-color);
+  --color-font2: var(--secondary-color);
+  --bgColor: #e1e5f2
 }
 
 body {
+  font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #aec3b0;
+  justify-content: center;
+  height: 100vh;
+  background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
 }
 
 .App {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 300px;
-  padding: 20px;
-  margin: 20px;
+  gap: 10px;
+  width: 310px;
+  height: 500px;
+  max-width: 95vw;
+  max-height: 95vh;
+  min-height: 290px;
+  min-width: 180px;
+  padding: 15px;
   background-color: var(--primary-color);
-  border-radius: 10px;
-  box-shadow: 5px 5px var(--secondary-color);
+  border-radius: 5px;
+  box-shadow: 15px 20px 20px gray;
+
 }
 
-.tela {
+.screen {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  background-color: var(--secondary-color);
+  height: 22%;
+  text-align: end;
+  padding: 5px;
+  border-radius: 3px;
 }
 
 .memory {
-  margin: 0;
-  height: 40px;
-  width: 100%;
-  color: rgb(255, 255, 255);
-  background-color: var(--secondary-color);
-  font-size: 20px;
-  text-align: end;
-  padding: 5px;
+  flex: 1 1 auto;
+  color: var(--tertiary-color);
+  font-size: 1.6rem;
+  overflow: hidden;
 }
 
-.result {
-  padding: 5px;
-  text-align: end;
-  height: 50px;
-  background-color: var(--secondary-color);
-  margin: 0;
-  font-size: 30px;
-  color: rgb(255, 255, 255);
-
+.display {
+  flex: 1 1 auto;
+  display: flex;
+  font-size: 2.2rem;
+  color: var(--primary-color);
+  align-items: flex-end;
+  justify-content: flex-end;
+  overflow: hidden;
 }
+
+.buttons {
+  flex: 4 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  height: 70%;
+}
+
 
 .btn {
-  width: 24%;
-  font-size: 20px;
-  margin-bottom: 4px;
-  border-radius: 5px;
-  padding: 10px;
+  font-size: 1.8rem;
+  border-radius: 3px;
   border: none;
-
+  width: 20%;
+  max-height: 20%;
+  flex: 2 0 auto;
+  cursor: pointer;
 }
 
 .btn-primary {
   background-color: var(--tertiary-color);
-  color: var(--color-font1);
-  font-size: 25px;
+  color: var(--color-font2);
 }
 
 .btn-primary:hover {
   background-color: var(--secondary-color);
-  cursor: pointer;
-}
+  color: var(--color-font1);
 
-.btn-secondary:hover {
-  cursor: pointer;
-  background-color: var(--tertiary-color);
 }
 
 .btn-secondary {
@@ -85,12 +105,6 @@ body {
   background-color: var(--secondary-color);
 }
 
-
-.botoes {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 10px;
-  width: 100%;
-  justify-content: space-between;
-
+.btn-secondary:hover {
+  background-color: var(--tertiary-color);
 }

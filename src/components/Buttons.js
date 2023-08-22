@@ -2,112 +2,136 @@
 
 export default function Buttons(props) {
 
-    const Btn = (label, onCLick) => {
+    const Btn = (label, onCLick, id) => {
         return (
-            <button className="btn btn-secondary" onClick={onCLick}>{label}</button>
+            <button id={id} className="btn btn-secondary" onClick={onCLick}>{label}</button>
         )
     }
-    const BtnOperator = (label, onCLick) => {
+    const BtnOperator = (label, onCLick, id) => {
         return (
-            <button className="btn btn-primary" onClick={onCLick}>{label}</button>
+            <button id={id} className="btn btn-primary" onClick={onCLick}>{label}</button>
         )
     }
-    const addDigitoTela = (d) => {
 
-        if (props.v.length > 18) {
-            return
-        }
-        let ultimoDigito = props.v.substring(props.v.length - 1);
-        //se digitamos um operador e a tela está zerada criamos um zero antes
-        if ((d === "+" || d === "-" || d === "*" || d === "/" || d === ",") && props.v === '') {
-            props.setV('0' + d)
-            return
-        }
-        //se digitamos um operador e já existe um operador ele é trocado
-        if ((d === "+" || d === "-" || d === "*" || d === "/") &&
-            (ultimoDigito === "+" || ultimoDigito === "-" || ultimoDigito === "*" || ultimoDigito === "/")) {
-            props.setV(props.v.substring(0, props.v.length - 1) + d);
-            return
-        }
-        //se digitamos um operador o resultado é concatenado para a proxima operação
-        if ((d === "+" || d === "-" || d === "*" || d === "/") && props.o) {
-            props.setO(false)
-            props.setV(props.r + d)
-            return
-        }
+    const addDigit = (d) => {
+        const regexOperators = /[+\-*/]/;
+        const lastDigit = props.value.substring(props.value.length - 1);
 
-        //evita duplicar o ponto
-        if (d === ",") {
-            let fatores = props.v.split(new RegExp('[-| +|*| /]'));
-            let ultimoFator = fatores.length - 1
-            if (fatores[ultimoFator].indexOf(',') !== - 1) {
+        if (props.value.length > 11) {
+            return
+        };
+        if ((d === '-') && (lastDigit !== '-') && (regexOperators.test(lastDigit))) {
+            props.setValue(props.value + d);
+            return
+        }
+        //if we type an operator and the screen is zero, we create a zero before
+        if ((regexOperators.test(d)) && props.value === '0') {
+            props.setValue('0' + d)
+            return
+        };
+        //if we type an operator and an operator already exists they are exchanged
+        if ((regexOperators.test(d)) && (regexOperators.test(lastDigit))) {
+            let operation = props.value.substring(0, props.value.length - 1);
+            if (regexOperators.test(operation.substring(operation.length - 1))) {
+                props.setValue(operation.substring(0, operation.length - 1) + d);
                 return
             }
-            if (props.v.substring(props.v.length - 1) === '+') {
-                props.setV(props.v + '0' + d)
+            props.setValue(operation + d);
+            return
+        };
+        //if we type an operator the result is concatenated to the next operation
+        if ((regexOperators.test(d)) && props.equal) {
+            props.setEqual(false)
+            props.setResult(props.value)
+            props.setValue(props.value + d)
+            return
+        };
+
+        //treatment about "."
+        if (d === ".") {
+            const factor = props.value.split(regexOperators);
+            const lastFactor = factor[factor.length - 1]
+            if (lastFactor.indexOf('.') !== - 1) {
                 return
             }
-        }
+            if (regexOperators.test(lastDigit)) {
+                props.setValue(props.value + '0' + d)
+                return
+            }
+            if (props.equal || props.value === '0') {
+                props.setValue('0' + d)
+                return
+            }
+        };
 
-        //se digitamos um numero o resultado é substituído
-        if (props.o) {
-            props.setV(d)
-            props.setO(false)
+        //if we type a number after the result, it is replaced by the new number
+        if (props.equal) {
+            props.setResult(props.value)
+            props.setValue(d)
+            props.setEqual(false)
+            return
+        };
+
+        if (props.value === '0') {
+            props.setValue(d)
             return
         }
-        const valorDigitadoTela = props.v + d
-        props.setV(valorDigitadoTela)
+
+        const valorDigitadoTela = props.value + d;
+        props.setValue(valorDigitadoTela);
     }
-    const limparMemoria = () => {
-        props.setO(false)
-        props.setV('')
-        props.setR(0)
+
+
+    const clear = () => {
+        props.setEqual(false)
+        props.setValue('0')
+        props.setResult('')
         return
     }
 
-    const Operacao = (oper) => {
-        if (oper === "bs") {
-            let vtela = props.v
-            vtela = vtela.substring(0, (vtela.length - 1))
-            props.setV(vtela)
-            props.setO(false)
+    const operation = (oper) => {
+        if (oper === "backSpace") {
+            let valueScreen = props.value
+            valueScreen = valueScreen.substring(0, (valueScreen.length - 1))
+            props.setValue(valueScreen)
+            props.setEqual(false)
             return
         }
         try {
-            const r = eval(props.v.replace(/,/g, '.'))
-            let y = r.toString().replace('.', ',')
-            if (y.length > 15) {
-                y = y.substring(0, 15)
+            const result = eval(props.value)
+            let resultUpdate = result.toString()
+            if (resultUpdate.length > 15) {
+                resultUpdate = resultUpdate.substring(0, 15)
             }
-            props.setR(y)
-            props.setO(true)
+            props.setValue(resultUpdate);
+            props.setEqual(true)
         } catch {
-            props.setR('ERRO')
+            props.setResult('ERRO')
         }
     }
     return (
-        <div className='botoes'>
-            {BtnOperator('AC', limparMemoria)}
-            {BtnOperator(<i class="bi bi-backspace-fill"></i>, () => Operacao('bs'))}
-            {BtnOperator('(', () => addDigitoTela('('))}
-            {BtnOperator(')', () => addDigitoTela(')'))}
-            {Btn('7', () => addDigitoTela('7'))}
-            {Btn('8', () => addDigitoTela('8'))}
-            {Btn('9', () => addDigitoTela('9'))}
-            {BtnOperator('/', () => addDigitoTela('/'))}
-            {Btn('4', () => addDigitoTela('4'))}
-            {Btn('5', () => addDigitoTela('5'))}
-            {Btn('6', () => addDigitoTela('6'))}
-            {BtnOperator('x', () => addDigitoTela('*'))}
-            {Btn('1', () => addDigitoTela('1'))}
-            {Btn('2', () => addDigitoTela('2'))}
-            {Btn('3', () => addDigitoTela('3'))}
-            {BtnOperator('-', () => addDigitoTela('-'))}
-            {Btn('0', () => addDigitoTela('0'))}
-            {Btn(',', () => addDigitoTela(','))}
-            {BtnOperator('=', () => Operacao('='))}
-            {BtnOperator('+', () => addDigitoTela('+'))}
-
+        <div className='buttons'>
+            {BtnOperator('AC', clear, 'clear')}
+            {BtnOperator(<i className="bi bi-backspace-fill"></i>, () => operation('backSpace'), 'backSpace')}
+            {BtnOperator('(', () => addDigit('('), 'right')}
+            {BtnOperator(')', () => addDigit(')'), 'left')}
+            {Btn('7', () => addDigit('7'), 'seven')}
+            {Btn('8', () => addDigit('8'), 'eight')}
+            {Btn('9', () => addDigit('9'), 'nine')}
+            {BtnOperator('/', () => addDigit('/'), 'divide')}
+            {Btn('4', () => addDigit('4'), 'four')}
+            {Btn('5', () => addDigit('5'), 'five')}
+            {Btn('6', () => addDigit('6'), 'six')}
+            {BtnOperator('x', () => addDigit('*'), 'multiply')}
+            {Btn('1', () => addDigit('1'), 'one')}
+            {Btn('2', () => addDigit('2'), 'two')}
+            {Btn('3', () => addDigit('3'), 'three')}
+            {BtnOperator('-', () => addDigit('-'), 'subtract')}
+            {Btn('0', () => addDigit('0'), 'zero')}
+            {Btn('.', () => addDigit('.'), 'decimal')}
+            {BtnOperator('=', () => operation('='), 'equals')}
+            {BtnOperator('+', () => addDigit('+'), 'add')}
         </div>
     )
 }
+
